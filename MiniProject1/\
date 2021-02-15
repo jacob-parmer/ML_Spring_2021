@@ -1,0 +1,38 @@
+import math
+
+class kNN:
+
+    def __init__(self, x, y):
+        
+        self.x = x
+        self.y = y
+        self.y_set = set(y) # Set of all possible y classifiers, e.g. {'+1', '-1'} for a4a
+
+    def euclidean_distance(self, p, q):
+        distance = 0.0
+
+        for i in range(len(p)):
+            distance += (float(p[i]) - float(q[i]))**2
+
+        return math.sqrt(distance)        
+
+    def classify(self, new_x, distance_metric, verbose=False, k):
+
+        if distance_metric == 'euclidean':
+
+            shortest_distances = []
+            for i, x in enumerate(self.x):
+
+                distance = self.euclidean_distance(new_x, x)
+                
+                if i < k:
+                    shortest_distances.append(distance)
+                
+            print(shortest_distances)
+        elif distance_metric == 'manhattan':
+            print("temp")
+
+        else:
+            print("Error: Invalid distance metric selected.")
+            raise ValueError("Error: Invalid distance metric selected. Please select euclidean or manhattan.")
+        return []
