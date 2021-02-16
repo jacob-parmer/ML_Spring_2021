@@ -71,4 +71,3 @@ class kNN:
 
         return most_likely_classifier
 
-        return []
