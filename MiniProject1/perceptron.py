@@ -16,15 +16,12 @@ class Perceptron:
             for i in range(len(x)):
                 activation += w[i] * x[i]
 
-            return 1.0 if activation >= 0.0 else 0.0
-
         else:
-
             activation = -self.bias
             for i in range(len(self.x)):
                 activation += self.w[i] * self.x[i]
 
-            return 1.0 if activation >= 0.0 else 0.0
+        return 1.0 if activation >= 0.0 else 0.0
 
     def train_weights(self, training_data, training_labels, lrate=0.001, epochs=100):
 
