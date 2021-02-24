@@ -11,7 +11,7 @@ class Data:
         else:
             print("Other datasets not supported because the data format is inconsistent for this project. >:(")
 
-        data_file = open(filename, 'r')
+        data_file = open(f"data/{filename}", 'r')
         classifiers = []
         data = []
         for line in data_file:
@@ -19,13 +19,12 @@ class Data:
             line_data = []
             for i in range(1, len(split_data)):
                 temp = split_data[i].split(":")
-                line_data.append(temp[data_index])
-            
-            classifiers.append(split_data[0])
+                line_data.append(float(temp[data_index]))
 
             # Removes data that sometimes doesn't contain the same number of features as the rest?
             if len(line_data) == num_features:
                 data.append(line_data)
+                classifiers.append(float(split_data[0]))
 
         data_file.close()
 
