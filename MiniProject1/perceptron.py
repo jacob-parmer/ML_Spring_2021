@@ -35,8 +35,8 @@ class Perceptron:
                 for j in range(len(self.w)):
                     self.w[j] = self.w[j] + (lrate * error * training_data[i][j])
 
-            if verbose:
-                print(f">epoch={epoch}, lrate={lrate}, error={sum_error}")
+            #if verbose:
+                #print(f">epoch={epoch}, lrate={lrate}, error={sum_error}")
 
         if verbose:
             print(f"Final weights: {self.w}")
