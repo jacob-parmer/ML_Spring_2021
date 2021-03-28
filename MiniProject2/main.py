@@ -21,19 +21,20 @@ def main(args):
     x = x.toarray()
     y = y.astype(int)
 
+    # Multi-classification set to binary classification
     for i in range(len(y)):
         if y[i] == 0:
             y[i] = 1
         else:
             y[i] = -1
 
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.05)
-    kp = KernelPerceptron(X_test, y_test, kernel=KernelPerceptron.polynomial_kernel)
+    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.80)
+    kp = KernelPerceptron(X_train, y_train, kernel=KernelPerceptron.polynomial_kernel)
 
-    #set_trace()
+    # FIT DATA
+    kp.fit(stepsize=1, epochs=20, verbose=args.verbose)
 
-    kp.fit(stepsize=1, epochs=1000, verbose=args.verbose)
-
+    # TEST DATA
     for i in range(len(X_test)):
         print(f"Prediction {kp.predict(X_test[i])} . Actual: {y_test[i]}")
 

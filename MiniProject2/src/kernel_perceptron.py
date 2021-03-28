@@ -41,7 +41,7 @@ class KernelPerceptron:
 
                 #print(f"Prediction: {prediction}, Actual: {self.y[i]}")
                 if error != 0:
-                    self.alpha[i] = self.alpha[i] + stepsize
+                    self.alpha[i] = self.alpha[i] + (stepsize * self.y[i])
 
             if verbose:
                 print(f">epoch={epoch}, stepsize={stepsize}, error={sum_error}")
