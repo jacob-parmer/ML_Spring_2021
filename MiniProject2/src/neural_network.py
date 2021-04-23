@@ -32,6 +32,7 @@ class NeuralNetwork:
             print(f"Beginning neural network model training...")
 
         dataset_size = len(targets)
+        accuracy = 0
         for i, X in enumerate(inputs):
             if self.verbose:
                 print(f"#{i}/{dataset_size}")
@@ -39,21 +40,25 @@ class NeuralNetwork:
             output = self.predict(X)
             self._backward_prop(output, targets[i], lrate)
 
+            output = np.argmax(output, axis=0)
+            expected = np.argmax(targets[i], axis=0)
+
+            if (output == expected):
+                accuracy += 1
+
             if self.verbose:
-                print(f"Prediction: {np.argmax(output, axis=0)}. Actual: {np.argmax(targets[i], axis=0)}. ")
+                print(f"Prediction: {output}. Actual: {expected}. ")
+                print(f"Accuracy: {accuracy}")
 
-        output = self.predict(inputs[0])
-        output = np.argmax(output, axis=0)
-        expected = np.argmax(targets[0], axis=0)
-
-        print(f"Predicted: {output}. Expected: {expected}")
-
-        return
+        accuracy = accuracy / len(inputs)
+        return accuracy
 
     def test(self, inputs, targets):
 
         error_count = 0
         dataset_size = len(inputs)
+        predictions = []
+        
         for i, X in enumerate(inputs):
             if self.verbose:
                 print(f"#{i}/{dataset_size}")
@@ -62,15 +67,14 @@ class NeuralNetwork:
             predicted = np.argmax(predicted, axis=0)
             expected = targets[i]
 
-            if predicted != expected:
-                error_count += 1
+            predictions.append(predicted)
 
             if self.verbose:
                 print(f"Prediction: {predicted}. Actual: {expected}.")
             
         print(f"Error rate on testing data: {error_count / len(inputs)}")
 
-        return
+        return predictions
 
 
     # --------------- PRIVATE MEMBERS ----------------- #
