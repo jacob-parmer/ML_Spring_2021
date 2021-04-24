@@ -27,11 +27,13 @@ class SVM:
 
         if verbose:
             print(f"Beginning SVM model training...")
+
         order = np.arange(0, len(self.X), 1)
 
+        avg_accuracy = 0
         for epoch in range(1, self.epochs+1):
 
-            error = 0
+            accuracy = 0
 
             eta = 1 / (self.lrate * epoch)
             fac = (1 - (eta*self.lrate))*self.W
@@ -42,13 +44,22 @@ class SVM:
 
                 if (self.y[i]*prediction < 1):
                     self.W = fac + eta * self.y[i] * self.X[i]
-                    error += 1
+                    
                 else:
                     self.W = fac
+                    accuracy += 1
 
-            error = error / len(order)
+            accuracy = accuracy / len(order)
+            avg_accuracy += accuracy
+        
             if verbose:
-                print(f">epoch: {epoch}. Error: {error}")
+                print(f">epoch: {epoch}. Accuracy: {accuracy}")
+
+        avg_accuracy = avg_accuracy / self.epochs
+        if verbose:
+            print(f"Training Accuracy: {avg_accuracy}")
+
+        return
 
     def test(self, X, y, verbose=False):
 

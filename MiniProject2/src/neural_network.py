@@ -26,29 +26,30 @@ class NeuralNetwork:
 
         return outputs
 
-    def train(self, inputs, targets, lrate):
+    def train(self, inputs, targets, lrate, epochs=3):
 
         if self.verbose:
             print(f"Beginning neural network model training...")
 
         dataset_size = len(targets)
         accuracy = 0
-        for i, X in enumerate(inputs):
-            if self.verbose:
-                print(f"#{i}/{dataset_size}")
+        for epoch in range(epochs):
+            for i, X in enumerate(inputs):
+                if self.verbose:
+                    print(f"#{i}/{dataset_size}")
 
-            output = self.predict(X)
-            self._backward_prop(output, targets[i], lrate)
+                output = self.predict(X)
+                self._backward_prop(output, targets[i], lrate)
 
-            output = np.argmax(output, axis=0)
-            expected = np.argmax(targets[i], axis=0)
+                output = np.argmax(output, axis=0)
+                expected = np.argmax(targets[i], axis=0)
 
-            if (output == expected):
-                accuracy += 1
+                if (output == expected):
+                    accuracy += 1
 
-            if self.verbose:
-                print(f"Prediction: {output}. Actual: {expected}. ")
-                print(f"Accuracy: {accuracy}")
+                if self.verbose:
+                    print(f"Prediction: {output}. Actual: {expected}. ")
+                    print(f"Accuracy: {accuracy}")
 
         accuracy = accuracy / len(inputs)
         return accuracy

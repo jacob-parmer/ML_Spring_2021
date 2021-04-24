@@ -24,11 +24,13 @@ class KernelPerceptron:
     
     def fit(self, stepsize=1, epochs=100, verbose=False):
 
+        x_len = len(self.x)
         for epoch in range(epochs):
             sum_error = 0.0
-            for i in range(len(self.x)):
-                K = np.zeros(len(self.x))
-                for j in range(len(self.x)):
+            accuracy = 0
+            for i in range(x_len):
+                K = np.zeros(x_len)
+                for j in range(x_len):
                     K[j] = self.alpha[j] * self.kernel(self, x=self.x[j], z=self.x[i])
 
                 if np.sum(K) > self.bias:
@@ -39,12 +41,18 @@ class KernelPerceptron:
                 error = self.y[i] - prediction
                 sum_error += error**2
 
-                #print(f"Prediction: {prediction}, Actual: {self.y[i]}")
                 if error != 0:
                     self.alpha[i] = self.alpha[i] + (stepsize * self.y[i])
+                else:
+                    accuracy += 1
+                
+                if verbose:
+                    print(f"epoch {epoch+1}/{epochs} - #{i}/{x_len}")
+                    print(f"Prediction: {prediction}, Actual: {self.y[i]}")
 
+            accuracy = accuracy / x_len
             if verbose:
-                print(f">epoch={epoch}, stepsize={stepsize}, error={sum_error}")
+                print(f">epoch={epoch}, stepsize={stepsize}, error={sum_error}, accuracy={accuracy}")
 
         if verbose:
             print(f"Final weights: {self.alpha}")
